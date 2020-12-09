@@ -1,0 +1,23 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#container {
+    display: grid;
+    grid-template-rows: 200 200px 200x;
+    grid-template-columns: 200px 200px 200px;
+    
+}
+
+.square {
+    background-color: rgb(88, 143, 153);
+    border: 3px solid black;
+    width: 200px;
+    height: 200px;
+    text-align: center;
+    line-height: 200px;
+    font-size: 100px;
+    font-weight: 800;
+}

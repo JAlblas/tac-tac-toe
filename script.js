@@ -33,17 +33,39 @@ const Player = (() => {
 
 // Module
 const GameBoard = (() => {
-    const printError = () => console.log("HELP");
-    return { printError };
+    const board = [["X", "O", "O"], ["O","X","X"], ["O","O","X"]];
+
+    const printBoard = () => console.log(board);
+
+    const renderBoard = () => {
+        let flattenedArray = board.flat();
+        let container = document.querySelector('#container');
+
+        for (let i = 0; i < board.length; i++) {
+
+            let innerArray = board[i];
+            for (let j = 0; j < innerArray.length; j++) {
+
+                let square = document.createElement('div');
+                square.classList.add('square');
+                square.textContent = board[i][j];
+
+                container.appendChild(square);
+            }
+
+        }
+    }
+    return { board, printBoard, renderBoard };
 })();
 
 const GameManager = (() => {
     const startGame = () => {
         // Do something!
     };
+    return { startGame };
 })();
 
-GameBoard.printError();
+GameBoard.renderBoard();
 
 let player = Player();
 player.printPlayer();
