@@ -107,7 +107,7 @@ const GameManager = (() => {
     };
 
     const addSquareToPlayer = (id) => {
-        players[currentPlayer].playerMoves.push(id);
+        players[currentPlayer].playerMoves.push(Number(id));
     };
 
     const checkForWinner = () => {
@@ -120,11 +120,7 @@ const GameManager = (() => {
                 console.log("Win Condition" + GameBoard.winConditions[i]);
                 console.log("Player moves" + players[currentPlayer].playerMoves);
 
-                if (GameBoard.winConditions[i].every(j => players[currentPlayer].playerMoves.includes(j))) {
-                    console.log("ALL ELEMENTS FOUND! WINNER!");
-                } else {
-                    console.log("NOOOOOOOOOO")
-                }
+                return GameBoard.winConditions[i].every(j => players[currentPlayer].playerMoves.includes(j));
             }
         }
     };
