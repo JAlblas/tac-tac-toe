@@ -1,24 +1,32 @@
 body {
+    text-align: center;
+}
+
+#container {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-#container {
+#game-board {
     display: grid;
-    grid-template-rows: 200 200px 200x;
-    grid-template-columns: 200px 200px 200px;
+    grid-template-rows: 150px 150px 150px;
+    grid-template-columns: 150px 150px 150px;
     
+}
+
+h1 {
+    display: block;
 }
 
 .square {
     background-color: rgb(88, 143, 153);
     border: 3px solid black;
-    width: 200px;
-    height: 200px;
+    width: 150px;
+    height: 150px;
     text-align: center;
-    line-height: 200px;
-    font-size: 100px;
+    line-height: 150px;
+    font-size: 150px;
     font-weight: 800;
 }
 
