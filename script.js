@@ -21,10 +21,9 @@ const GameBoard = (() => {
         [2, 4, 6]
     ]
 
-    let availableSpots = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-
     const renderBoard = () => {
         let container = document.querySelector('#game-board');
+        container.innerHTML = "";
 
         for (let i = 0; i < board.length; i++) {
 
@@ -61,7 +60,7 @@ const GameBoard = (() => {
         title.innerHTML = "Player: " + GameManager.fetchPlayerName();
     }
 
-    return { board, renderBoard, markSpot, winConditions, availableSpots };
+    return { board, renderBoard, markSpot, winConditions };
 })();
 
 
@@ -77,6 +76,8 @@ const GameManager = (() => {
 
     const startGame = () => {
        GameBoard.renderBoard();
+       playerOne.playerMoves = [];
+       playerTwo.playerMoves = [];
     };
 
     const endGame = () => {
@@ -86,8 +87,6 @@ const GameManager = (() => {
     const changeTurns = () => {
         if (checkForWinner()) {
             endGame();
-        } else {
-            console.log("Game not ended!");
         }
 
         if (currentPlayer === 0) {
@@ -111,16 +110,17 @@ const GameManager = (() => {
     };
 
     const checkForWinner = () => {
-        console.log(players[currentPlayer]);
         if (players[currentPlayer].playerMoves.length <= 2) {
             return false;
         } else {
             for (let i = 0; i < GameBoard.winConditions.length; i++)
             {
-                console.log("Win Condition" + GameBoard.winConditions[i]);
-                console.log("Player moves" + players[currentPlayer].playerMoves);
-
-                return GameBoard.winConditions[i].every(j => players[currentPlayer].playerMoves.includes(j));
+                if (GameBoard.winConditions[i].every(j => players[currentPlayer].playerMoves.includes(j))) {
+                    return true;
+                }
+            }
+            if (players[currentPlayer].playerMoves.length === 5) {
+                alert("Draw!");
             }
         }
     };
@@ -128,4 +128,8 @@ const GameManager = (() => {
     return { startGame, fetchPlayerSymbol, changeTurns, fetchPlayerName, addSquareToPlayer };
 })();
 
-GameManager.startGame();
+let startButton = document.querySelector('#start');
+startButton.addEventListener("click", () => {
+    startButton.textContent = "Restart";
+    GameManager.startGame();
+})
