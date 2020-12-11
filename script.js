@@ -24,18 +24,34 @@ const calculator = (() => {
   })();
 */
 
-
 // Factory
-const Player = (() => {
-    const printPlayer = () => console.log("PLAYER HELP");
-    return { printPlayer };
+const Player = ((symbol) => {
+    symbol = symbol;
+
+    const printPlayer = () => console.log("PLAYER HELP", symbol);
+    return { printPlayer, symbol };
 });
+
 
 // Module
 const GameBoard = (() => {
-    const board = [["X", "O", "O"], ["O","X","X"], ["O","O","X"]];
+    const board = [["X", "", "O"], ["O","X",""], ["","O","X"]];
+    
+    const winConditions = [
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8],
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8],
+        [0, 4, 8],
+        [2, 4, 6]
+    ]
 
-    const printBoard = () => console.log(board);
+    const getBoard = () => {
+        return this;
+    }
+
 
     const renderBoard = () => {
         let flattenedArray = board.flat();
@@ -48,26 +64,79 @@ const GameBoard = (() => {
 
                 let square = document.createElement('div');
                 square.classList.add('square');
+                square.id = i + "-" + j;
                 square.textContent = board[i][j];
+                square.addEventListener("click", markSpot);
 
                 container.appendChild(square);
             }
 
         }
-    }
-    return { board, printBoard, renderBoard };
-})();
-
-const GameManager = (() => {
-    const startGame = () => {
-        // Do something!
     };
-    return { startGame };
+
+    const checkIfSquareEmpty = (e) => {
+        let id = e.target.id;
+        if (e.target.textContent === "") {
+            return true;
+        }
+        return false;
+    };
+
+    const markSpot = (e) => {
+        if (checkIfSquareEmpty(e)) {
+            console.log("GM: " + GameManager);
+            e.target.textContent = GameManager.fetchPlayerSymbol();
+            GameManager.changeTurns();
+        }
+    };
+
+    const checkForWinner = () => {
+        
+    };
+
+    return { board, renderBoard, markSpot, getBoard };
 })();
 
-GameBoard.renderBoard();
 
-let player = Player();
-player.printPlayer();
+let playerOne = Player("X");
+let playerTwo = Player("O");
+let players = [playerOne, playerTwo]; 
+
+const GameManager = ((players) => {
+    
+    const gameBoard = GameBoard.getBoard();
+
+    gameBoard.GameManager = this;
+
+    players = players;
+    let currentPlayer = 0;
+
+    const startGame = () => {
+       GameBoard.renderBoard();
+    };
+
+    const endGame = () => {
+ 
+    };
+
+    const changeTurns = () => {
+        if (currentPlayer === 0) {
+            currentPlayer = 1;
+        } else {
+            currentPlayer = 0;
+        }
+        if (gameBoard.checkForWinner) {
+            endGame();
+        }
+    };
+
+    const fetchPlayerSymbol = () => {
+        return players[currentPlayer].symbol;
+    }
+
+    return { startGame, fetchPlayerSymbol, changeTurns };
+})(players);
+
+
 
 GameManager.startGame();
