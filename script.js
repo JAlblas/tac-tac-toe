@@ -1,8 +1,8 @@
 // Factory
-const Player = ((symbol) => {
+const Player = ((name, symbol) => {
     let playerMoves = [];
 
-    return { symbol, playerMoves };
+    return { name, symbol, playerMoves };
 });
 
 
@@ -64,18 +64,20 @@ const GameBoard = (() => {
 })();
 
 
-
-
 const GameManager = (() => {
 
-    let playerOne = Player("X");
-    let playerTwo = Player("O");
-    let players = [playerOne, playerTwo]; 
-
     let currentPlayer = 0;
+    let players;
 
     const startGame = () => {
        GameBoard.renderBoard();
+       let playerOneName = document.querySelector('#player1-name').value;
+       let playerTwoName = document.querySelector('#player2-name').value;
+   
+       let playerOne = Player(playerOneName, "X");
+       let playerTwo = Player(playerTwoName, "O");
+       players = [playerOne, playerTwo]; 
+
        playerOne.playerMoves = [];
        playerTwo.playerMoves = [];
     };
@@ -94,7 +96,7 @@ const GameManager = (() => {
         } else {
             currentPlayer = 0;
         }
-
+        console.log(players[currentPlayer]);
     };
 
     const fetchPlayerSymbol = () => {
@@ -102,7 +104,7 @@ const GameManager = (() => {
     };
 
     const fetchPlayerName = () => {
-        return currentPlayer + 1;
+        return players[currentPlayer].name;
     };
 
     const addSquareToPlayer = (id) => {
