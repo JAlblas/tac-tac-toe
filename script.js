@@ -60,7 +60,7 @@ const GameBoard = (() => {
         title.innerHTML = "Player: " + GameManager.fetchPlayerName();
     }
 
-    return { board, renderBoard, markSpot, winConditions };
+    return { board, renderBoard, markSpot, updateUI, winConditions };
 })();
 
 
@@ -82,13 +82,23 @@ const GameManager = (() => {
        playerTwo.playerMoves = [];
     };
 
-    const endGame = () => {
-        alert("Game ended!");
+    const endGame = (winner) => {
+        let squares = document.querySelectorAll('.square');
+        Array.prototype.forEach.call(squares, function(el) {
+            console.log("removing events")
+            el.removeEventListener("click", GameBoard.markSpot);
+        });
+
+        if (winner === "Draw") {
+            alert("Game ended! It's a draw.");
+        } else {
+            alert("Game ended! " + fetchPlayerName() + " has won!");
+        }
     };
 
     const changeTurns = () => {
         if (checkForWinner()) {
-            endGame();
+            endGame("winner");
         }
 
         if (currentPlayer === 0) {
@@ -96,7 +106,6 @@ const GameManager = (() => {
         } else {
             currentPlayer = 0;
         }
-        console.log(players[currentPlayer]);
     };
 
     const fetchPlayerSymbol = () => {
@@ -122,16 +131,19 @@ const GameManager = (() => {
                 }
             }
             if (players[currentPlayer].playerMoves.length === 5) {
-                alert("Draw!");
+                endGame("Draw");
             }
         }
     };
 
-    return { startGame, fetchPlayerSymbol, changeTurns, fetchPlayerName, addSquareToPlayer };
+    const eventHandler = () => {
+        startGame();
+        startButton.textContent = "Restart";
+        document.querySelector('#player-header').innerHTML = "Player: " +  GameManager.fetchPlayerName();
+    }
+
+    return { fetchPlayerSymbol, changeTurns, fetchPlayerName, addSquareToPlayer, eventHandler };
 })();
 
 let startButton = document.querySelector('#start');
-startButton.addEventListener("click", () => {
-    startButton.textContent = "Restart";
-    GameManager.startGame();
-})
+startButton.addEventListener("click", GameManager.eventHandler);

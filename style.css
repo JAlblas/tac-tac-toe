@@ -2,10 +2,11 @@ body {
     text-align: center;
     background: rgb(2,0,36);
     background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,121,69,1) 35%, rgba(0,212,255,1) 100%);
+    font-family: 'Roboto Slab', serif;
 }
 
 #ui {
-    width: 300px;
+    width: 400px;
     margin: 0 auto;
 }
 
@@ -26,7 +27,12 @@ h1 {
     display: block;
 }
 
+input {
+    margin-left: 20px;
+}
+
 button {
+    margin-top: 10px;
     margin-bottom: 10px;
 }
 
